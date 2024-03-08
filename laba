@@ -1,3 +1,4 @@
+#include<iostream>
 #include<stack>
 #include<string>
 #include<iomanip>
@@ -10,7 +11,7 @@ struct BOOK
 };
 void vozmoshnosi()
 {
-    cout << "Для добавления книги в конец введите 1." << endl;
+    cout << "Для добавления книги в начало  введите 1." << endl;
     cout << "Для добавления книги перед указанной книгой введите 2, после указанной 3." << endl;
     cout << "Для добавления книги отсортированной по автору введите 4." << endl;
     cout << "Для удаления выбранной книги введите 5." << endl;
@@ -58,83 +59,43 @@ int main() {
             int index;
             cout << "Введите номер книги перед которой хотите вставить: ";
             cin >> index;
-            stack<BOOK> tempstack;
+            cin.ignore();
             vvoddannix(bookdan);
-            int count = 0;
-            if (index == 0)
+            stack<BOOK> tempStack;
+            while (index > 0 && !bookstack.empty())
             {
-                while (!bookstack.empty())
-                {
-
-                    tempstack.push(bookstack.top());
-                    bookstack.pop();
-                }
-                bookstack.push(bookdan);
-                while (!tempstack.empty())
-                {
-
-                    bookstack.push(tempstack.top());
-                    tempstack.pop();
-                }
+                tempStack.push(bookstack.top());
+                bookstack.pop();
+                index--;
             }
-            else
+            bookstack.push(bookdan);
+            while (!tempStack.empty())
             {
-                bool a = true;
-                while (!bookstack.empty())
-                {
-                    if (index = count)
-                    {
-                        a = false;
-                        break;
-                    }
-                    tempstack.push(bookstack.top());
-                    bookstack.pop();
-                    count++;
-                }
-                if (a == false)
-                {
-                    bookstack.push(bookdan);
-                    while (!tempstack.empty())
-                    {
-                        bookstack.push(tempstack.top());
-                        tempstack.pop();
-                    }
-                }
-                else {
-                    cout << "неверно указан index!" << endl;
-                    while (!tempstack.empty())
-                    {
-                        bookstack.push(tempstack.top());
-                        tempstack.pop();
-                    }
-                }
-                
+                bookstack.push(tempStack.top());
+                tempStack.pop();
             }
             break;
         }
         case 3:
         {
             int index;
-            cout << "Введите номер книги после которой хотите вставить: ";
+            cout << "Введите номер книги, после которой хотите вставить новую книгу: ";
             cin >> index;
-            stack<BOOK> tempstack;
+            cin.ignore();
+            BOOK bookdan;
             vvoddannix(bookdan);
+            stack<BOOK> tempstack;
             int count = 0;
             while (!bookstack.empty())
             {
+                if (count-1 == index)
+                {
+                    tempstack.push(bookdan);
+                }
                 tempstack.push(bookstack.top());
                 bookstack.pop();
+                count++;
             }
-            while (!tempstack.empty())
-            {
-                
-                bookstack.push(tempstack.top());
-                tempstack.pop();
-                if (count = index) {
-                    break;
-                }
-            }
-            bookstack.push(bookdan);
             while (!tempstack.empty())
             {
                 bookstack.push(tempstack.top());
@@ -195,28 +156,28 @@ int main() {
             {
                 cout << "--------------------------------------------------------------------------------------------------" << endl;
                 cout << "|" << setw(5) << left << "№" << "|" << setw(10) << left << "Номер UDK" << "|" << setw(25) << left << "Фамилия инициалы автора" << "|" << setw(30) << left << "Название книги" << "|" << setw(10) << left
-                    << "Год издания" << "|" << setw(10) << left << "Количество" << "|" << endl;
+                << "Год издания" << "|" << setw(10) << left << "Количество" << "|" << endl;
                 cout << "--------------------------------------------------------------------------------------------------" << endl;
                 int i = 0;
                 stack<BOOK> tempstack;
                 while (!bookstack.empty())
                 {
+                    cout << "|" << setw(5) << left << i;
+                    cout << "|" << setw(10) << left << bookstack.top().NumberUDK;
+                    cout << "|" << setw(25) << left << bookstack.top().AUTOR;
+                    cout << "|" << setw(30) << left << bookstack.top().NAMEBOOK;
+                    cout << "|" << setw(11) << left << bookstack.top().DATA;
+                    cout << "|" << setw(10) << left << bookstack.top().KOLVOEKZ << "|" << endl;
+                    cout << "--------------------------------------------------------------------------------------------------" << endl;
                     tempstack.push(bookstack.top());
                     bookstack.pop();
+                    i++;
+
                 }
                 while (!tempstack.empty())
                 {
-                    cout << "|" << setw(5) << left << i;
-                    cout << "|" << setw(10) << left << tempstack.top().NumberUDK;
-                    cout << "|" << setw(25) << left << tempstack.top().AUTOR;
-                    cout << "|" << setw(30) << left << tempstack.top().NAMEBOOK;
-                    cout << "|" << setw(11) << left << tempstack.top().DATA;
-                    cout << "|" << setw(10) << left << tempstack.top().KOLVOEKZ << "|" << endl;
-                    cout << "--------------------------------------------------------------------------------------------------" << endl;
                     bookstack.push(tempstack.top());
                     tempstack.pop();
-                    i++;
-
                 }
             }
             break;
@@ -289,4 +250,4 @@ int main() {
         }
     } while (number != 0);
     return 0;
-}
+};
