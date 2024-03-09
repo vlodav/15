@@ -86,15 +86,21 @@ int main() {
             vvoddannix(bookdan);
             stack<BOOK> tempstack;
             int count = 0;
+            bool inserted = false;
             while (!bookstack.empty())
             {
-                if (count-1 == index)
+                if (count - 1 == index)
                 {
                     tempstack.push(bookdan);
+                    inserted = true;  
                 }
                 tempstack.push(bookstack.top());
                 bookstack.pop();
                 count++;
+            }
+            if (!inserted) 
+            { 
+                tempstack.push(bookdan);
             }
             while (!tempstack.empty())
             {
